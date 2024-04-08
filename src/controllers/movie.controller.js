@@ -53,8 +53,47 @@ async function getMoviesByCountry(req, res, next) {
   }
 }
 
+async function getMovieDetails(req, res, next) {
+  try {
+    console.log(
+      "Start getMovieDetails.controller req params:",
+      JSON.stringify(req.params, null, 2)
+    );
+    const { id } = req.params;
+    const movieDetails = await movieService.getMovieDetails(id);
+    res.json({ data: movieDetails, status: 200 });
+  } catch (err) {
+    console.error(
+      "getMovieDetails.controller error while getting movie details",
+      err.message
+    );
+    res.json({ data: err.message, status: 500 });
+    next(err);
+  }
+}
+
+async function getMoviesByGenre(req, res, next) {
+  try {
+    console.log(
+      "Start getMoviesByGenre.controller req query:",
+      JSON.stringify(req.query, null, 2)
+    );
+    const { genre } = req.query;
+    const movies = await movieService.getMoviesByGenre(genre);
+    res.json({ data: movies, status: 200 });
+  } catch (err) {
+    console.error(
+      "getMoviesByGenre.controller error while getting movies by genre",
+      err.message
+    );
+    res.json({ data: err.message, status: 500 });
+    next(err);
+  }
+}
 module.exports = {
   searchByTitle,
   getRandomMovies,
   getMoviesByCountry,
+  getMovieDetails,
+  getMoviesByGenre,
 };
