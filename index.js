@@ -4,6 +4,10 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT || 4000;
+const user = require("./src/routes/user.route");
+const movie = require("./src/routes/movie.route");
+const review = require("./src/routes/review.route");
+const spoil = require("./routes/spoil.route");
 
 app.use(bodyParser.json());
 app.use(
