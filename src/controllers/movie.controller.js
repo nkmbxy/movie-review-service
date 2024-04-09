@@ -53,18 +53,18 @@ async function getMoviesByCountry(req, res, next) {
   }
 }
 
-async function getMovieDetails(req, res, next) {
+async function getDetails(req, res, next) {
   try {
     console.log(
-      "Start getMovieDetails.controller req params:",
+      "Start getDetails.controller req params:",
       JSON.stringify(req.params, null, 2)
     );
     const { id } = req.params;
-    const movieDetails = await movieService.getMovieDetails(id);
-    res.json({ data: movieDetails, status: 200 });
+    const details = await movieService.getDetails(id);
+    res.json({ data: details, status: 200 });
   } catch (err) {
     console.error(
-      "getMovieDetails.controller error while getting movie details",
+      "getDetails.controller error while getting movie details",
       err.message
     );
     res.json({ data: err.message, status: 500 });
@@ -94,6 +94,6 @@ module.exports = {
   searchByTitle,
   getRandomMovies,
   getMoviesByCountry,
-  getMovieDetails,
+  getDetails,
   getMoviesByGenre,
 };

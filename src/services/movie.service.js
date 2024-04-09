@@ -12,7 +12,7 @@ async function getMoviesByCountry(country) {
   return await Movie.find({ country });
 }
 
-async function getMovieDetails(id) {
+async function getDetails(id) {
   return await Movie.findById(id).select("title actor funny genre synopsis");
 }
 
@@ -24,6 +24,6 @@ module.exports = {
   searchByTitle,
   getRandomMovies,
   getMoviesByCountry,
-  getMovieDetails,
+  getDetails,
   getMoviesByGenre,
 };
