@@ -1,11 +1,11 @@
-const movieGenreService = require("../services/movieGenre.service");
+const genreService = require("../services/movieGenre.service");
 
 const getGenre = async (req, res, next) => {
+  const genreName = req.params.genre;
   try {
-    const genreName = req.params.genre;
-    const genre = await movieGenreService.getGenreByName(genreName);
+    const genre = await genreService.getGenreByName(genreName);
     if (!genre) {
-      return res.status(404).send({ message: "Genre not found" });
+      return res.status(404).send("Genre not found");
     }
     res.json(genre);
   } catch (error) {
@@ -13,6 +13,4 @@ const getGenre = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  getGenre,
-};
+module.exports = { getGenre };

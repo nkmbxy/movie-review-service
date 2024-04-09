@@ -1,8 +1,8 @@
-const MovieGenre = require("../models/movieGenre.model");
+const Genre = require("../models/movieGenre.model");
 
 const getGenreByName = async (genreName) => {
   try {
-    const genre = await MovieGenre.findOne({ name: genreName });
+    const genre = await Genre.findOne({ name: genreName }).populate("movies");
     return genre;
   } catch (error) {
     console.error("Error in getGenreByName:", error);
@@ -10,6 +10,4 @@ const getGenreByName = async (genreName) => {
   }
 };
 
-module.exports = {
-  getGenreByName,
-};
+module.exports = { getGenreByName };
