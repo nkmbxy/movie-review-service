@@ -6,6 +6,6 @@ router.get("/search", movieController.searchByTitle);
 router.get("/random", movieController.getRandomMovies);
 router.get("/country/:country", movieController.getMoviesByCountry);
 router.get("/details/:id", movieController.getDetails);
-router.get("/movieGenre", movieController.getMoviesByGenre);
+router.get("/movieSortByGenre", movieController.getMoviesSortByGenre);
 
 module.exports = router;

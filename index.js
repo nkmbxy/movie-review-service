@@ -8,6 +8,7 @@ const user = require("./src/routes/user.route");
 const movie = require("./src/routes/movie.route");
 const review = require("./src/routes/review.route");
 const spoil = require("./routes/spoil.route");
+const genre = require("./routes/genre.route");
 
 app.use(bodyParser.json());
 app.use(

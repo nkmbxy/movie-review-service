@@ -16,7 +16,7 @@ async function getDetails(id) {
   return await Movie.findById(id).select("title actor funny genre synopsis");
 }
 
-async function getMoviesByGenre(genre) {
+async function getMoviesSortByGenre(genre) {
   return await Movie.find({ genre }).select("title image");
 }
 
@@ -25,5 +25,5 @@ module.exports = {
   getRandomMovies,
   getMoviesByCountry,
   getDetails,
-  getMoviesByGenre,
+  getMoviesSortByGenre,
 };
