@@ -1,4 +1,5 @@
 const Review = require("../models/review.model");
+const Spoil = require("../models/spoil.model");
 
 //หนังที่จะรีวิว
 async function create(review, options = {}) {
@@ -22,6 +23,26 @@ async function create(review, options = {}) {
 }
 
 //หน้ารีวิวหนังเรื่องนั้น
+const getReviewById = async (id) => {
+  try {
+    const review = await Review.findById(id);
+    return review;
+  } catch (error) {
+    throw error;
+  }
+};
+
+//คนมาคอมเม้น
+const getCommentById = async (commentId) => {
+  try {
+    const comment = await Comment.findById(commentId)
+      .select("user_id comment_text like_counter")
+      .exec();
+    return comment;
+  } catch (error) {
+    throw error;
+  }
+};
 
 //สปอย
 const getSpoilByMovieId = async (movieId, session = null) => {
@@ -29,7 +50,7 @@ const getSpoilByMovieId = async (movieId, session = null) => {
     const spoil = await Spoil.findOne({ movie_id: movieId }).session(session);
     return spoil;
   } catch (error) {
-    console.error("spoil.service error getting spoil by movieId:", error);
+    console.error("review.service error getting spoil by movieId:", error);
     throw error;
   }
 };
@@ -37,4 +58,6 @@ const getSpoilByMovieId = async (movieId, session = null) => {
 module.exports = {
   create,
   getSpoilByMovieId,
+  getCommentById,
+  getReviewById,
 };

@@ -9,27 +9,24 @@ async function register(req, res, next) {
     const { email, password } = req?.body;
 
     if (!(email && password)) {
-      res.json({
-        data: "all input is required",
-        status: 400,
+      return res.status(400).json({
+        data: "All input is required",
       });
     }
 
     const user = await userService.findByEmail(email);
     if (user) {
-      res.json({
-        data: "user already exist. Please login",
-        status: 409,
+      return res.status(409).json({
+        data: "User already exists. Please login.",
       });
     }
     const userRegister = await userService.register(email, password);
-    res.json({
+    res.status(200).json({
       data: userRegister,
-      status: 200,
     });
   } catch (err) {
     console.error(`register.controller error while creating user`, err.message);
-    res.json({ data: err.message, status: 500 });
+    res.status(500).json({ data: err.message });
     next(err);
   }
 }
@@ -44,28 +41,25 @@ async function login(req, res, next) {
     const { email, password } = req?.body;
 
     if (!(email && password)) {
-      res.json({
-        data: "all input is required",
-        status: 400,
+      return res.status(400).json({
+        data: "All input is required",
       });
     }
 
     const user = await userService.findByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
       const userLogin = await userService.login(user);
-      res.json({
+      res.status(200).json({
         data: userLogin,
-        status: 200,
       });
     } else {
-      res.json({
+      res.status(400).json({
         data: "user not found please try again",
-        status: 400,
       });
     }
   } catch (err) {
     console.error(`register.controller error while creating user`, err.message);
-    res.json({ data: err.message, status: 500 });
+    res.status(500).json({ data: err.message });
     next(err);
   }
 }

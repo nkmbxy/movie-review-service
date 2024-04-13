@@ -31,7 +31,7 @@ async function getRandomMovies(req, res, next) {
       "getRandomMovies.controller error while getting random movies",
       err.message
     );
-    res.json({ data: err.message, status: 500 });
+    res.status(500).json({ data: err.message });
     next(err);
   }
 }
@@ -45,13 +45,13 @@ async function getMoviesByCountry(req, res, next) {
     );
     const { country } = req.params;
     const movies = await movieService.getMoviesByCountry(country);
-    res.json({ data: movies, status: 200 });
+    res.status(200).json({ data: movies });
   } catch (err) {
     console.error(
       "getMoviesByCountry.controller error while getting movies by country",
       err.message
     );
-    res.json({ data: err.message, status: 500 });
+    res.status(500).json({ data: err.message });
     next(err);
   }
 }
@@ -60,5 +60,4 @@ module.exports = {
   searchByTitle,
   getRandomMovies,
   getMoviesByCountry,
-  getDetails,
 };

@@ -20,5 +20,4 @@ module.exports = {
   searchByTitle,
   getRandomMovies,
   getMoviesByCountry,
-  getDetails,
 };
