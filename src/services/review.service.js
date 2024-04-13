@@ -21,6 +21,20 @@ async function create(review, options = {}) {
   }
 }
 
+//หน้ารีวิวหนังเรื่องนั้น
+
+//สปอย
+const getSpoilByMovieId = async (movieId, session = null) => {
+  try {
+    const spoil = await Spoil.findOne({ movie_id: movieId }).session(session);
+    return spoil;
+  } catch (error) {
+    console.error("spoil.service error getting spoil by movieId:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   create,
+  getSpoilByMovieId,
 };

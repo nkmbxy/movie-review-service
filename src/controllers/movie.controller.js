@@ -9,13 +9,13 @@ async function searchByTitle(req, res, next) {
     );
     const { title } = req.query;
     const movies = await movieService.searchByTitle(title);
-    res.json({ data: movies, status: 200 });
+    res.status(200).json({ data: movies });
   } catch (err) {
     console.error(
       "searchByTitle.controller error while searching movies",
       err.message
     );
-    res.json({ data: err.message, status: 500 });
+    res.status(500).json({ data: err.message });
     next(err);
   }
 }
@@ -25,7 +25,7 @@ async function getRandomMovies(req, res, next) {
   try {
     console.log("Start getRandomMovies.controller");
     const movies = await movieService.getRandomMovies();
-    res.json({ data: movies, status: 200 });
+    res.status(200).json({ data: movies });
   } catch (err) {
     console.error(
       "getRandomMovies.controller error while getting random movies",
@@ -36,7 +36,7 @@ async function getRandomMovies(req, res, next) {
   }
 }
 
-//จัดหนังตามประเทศ หน้าโฮม
+//จัดหนังตามประเทศ หน้าโฮม, เมาส์โฮเว่อร์แล้วโชว์หลายละเอียด หน้าโฮม
 async function getMoviesByCountry(req, res, next) {
   try {
     console.log(
@@ -49,26 +49,6 @@ async function getMoviesByCountry(req, res, next) {
   } catch (err) {
     console.error(
       "getMoviesByCountry.controller error while getting movies by country",
-      err.message
-    );
-    res.json({ data: err.message, status: 500 });
-    next(err);
-  }
-}
-
-//เมาส์โฮเว่อร์แล้วโชว์หลายละเอียด หน้าโฮม
-async function getDetails(req, res, next) {
-  try {
-    console.log(
-      "Start getDetails.controller req params:",
-      JSON.stringify(req.params, null, 2)
-    );
-    const { id } = req.params;
-    const details = await movieService.getDetails(id);
-    res.json({ data: details, status: 200 });
-  } catch (err) {
-    console.error(
-      "getDetails.controller error while getting movie details",
       err.message
     );
     res.json({ data: err.message, status: 500 });

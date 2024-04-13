@@ -1,6 +1,6 @@
 const genreService = require("../services/movieGenre.service");
 
-//แค่ประเภทที่เลือก
+//แค่ประเภทที่เลือก, ดูหนังที่คล้ายกัน
 async function getMoviesSortByGenre(req, res, next) {
   try {
     console.log(

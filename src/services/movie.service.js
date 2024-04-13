@@ -11,14 +11,9 @@ async function getRandomMovies() {
   return await Movie.aggregate([{ $sample: { size: 3 } }]);
 }
 
-//จัดหนังตามประเทศ หน้าโฮม
+//จัดหนังตามประเทศ หน้าโฮม, เมาส์โฮเว่อร์แล้วโชว์หลายละเอียด
 async function getMoviesByCountry(country) {
   return await Movie.find({ country });
-}
-
-//เมาส์โฮเว่อร์แล้วโชว์หลายละเอียด
-async function getDetails(id) {
-  return await Movie.findById(id).select("title actor funny genre synopsis");
 }
 
 module.exports = {
