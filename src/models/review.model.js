@@ -2,19 +2,27 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
+    movie_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Movie",
       required: true,
     },
-    penname: {
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    title: {
       type: String,
       required: true,
     },
     pseudonym: {
       type: String,
+      required: true,
     },
-    spoil: {
+    spoil_text: {
       type: String,
+      required: true,
     },
     actor: {
       type: String,
@@ -22,11 +30,7 @@ const reviewSchema = new mongoose.Schema(
     director: {
       type: String,
     },
-    rate: {
-      type: Number,
-      required: true,
-    },
-    funny: {
+    score: {
       type: Number,
       required: true,
     },
@@ -50,6 +54,12 @@ const reviewSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now,

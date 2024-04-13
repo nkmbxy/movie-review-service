@@ -1,16 +1,23 @@
 const genreService = require("../services/movieGenre.service");
 
-const getGenre = async (req, res, next) => {
-  const genreName = req.params.genre;
+//แค่ประเภทที่เลือก
+async function getMoviesSortByGenre(req, res, next) {
   try {
-    const genre = await genreService.getGenreByName(genreName);
-    if (!genre) {
-      return res.status(404).send("Genre not found");
-    }
-    res.json(genre);
-  } catch (error) {
-    next(error);
+    console.log(
+      "Start getMoviesSortByGenre.controller req query:",
+      JSON.stringify(req.query, null, 2)
+    );
+    const { genre } = req.query;
+    const movies = await movieService.getMoviesSortByGenre(genre);
+    res.json({ data: movies, status: 200 });
+  } catch (err) {
+    console.error(
+      "getMoviesSortByGenre.controller error while getting movies by genre",
+      err.message
+    );
+    res.json({ data: err.message, status: 500 });
+    next(err);
   }
-};
+}
 
-module.exports = { getGenre };
+module.exports = { getMoviesSortByGenre };

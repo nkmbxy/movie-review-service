@@ -1,13 +1,8 @@
 const Genre = require("../models/movieGenre.model");
 
-const getGenreByName = async (genreName) => {
-  try {
-    const genre = await Genre.findOne({ name: genreName }).populate("movies");
-    return genre;
-  } catch (error) {
-    console.error("Error in getGenreByName:", error);
-    throw error;
-  }
-};
+//ดูประเภทที่เลือก
+async function getMoviesSortByGenre(genre) {
+  return await Movie.find({ genre }).select("title image");
+}
 
-module.exports = { getGenreByName };
+module.exports = { getMoviesSortByGenre };

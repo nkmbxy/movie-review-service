@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 const spoilSchema = new mongoose.Schema(
   {
-    spoil_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      unique: true,
-    },
     spoil_text: {
       type: String,
       required: true,
@@ -21,8 +16,12 @@ const spoilSchema = new mongoose.Schema(
       ref: "Movie",
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  { timestamps: true }
+  { versionKey: false }
 );
 
 const Spoil = mongoose.model("Spoil", spoilSchema);

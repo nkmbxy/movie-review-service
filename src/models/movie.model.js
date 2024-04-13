@@ -6,24 +6,25 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    synopsis: {
+      type: String,
+      required: true,
+    },
+    genre_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Genre",
+      required: true,
+    },
     country: {
       type: String,
       required: true,
     },
-    leadingActor: {
+    actor: {
       type: String,
       required: true,
     },
     score: {
       type: Number,
-      required: true,
-    },
-    genre: {
-      type: String,
-      required: true,
-    },
-    synopsis: {
-      type: String,
       required: true,
     },
   },
