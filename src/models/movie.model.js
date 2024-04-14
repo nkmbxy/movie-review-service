@@ -27,6 +27,15 @@ const movieSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    movie_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Movie",
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false }
 );

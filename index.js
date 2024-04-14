@@ -33,7 +33,6 @@ db.once("open", () => {
 });
 
 app.use("/movie", movie);
-app.use("/spoil", spoil);
 app.use("/genre", genre);
 app.use("/review", review);
 app.use("/user", user);

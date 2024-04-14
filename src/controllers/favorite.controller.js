@@ -1,6 +1,6 @@
 const favoriteService = require("../services/favorite.service");
 
-exports.addFavorite = async (req, res, next) => {
+async function addFavorite(req, res, next) {
   try {
     const { userId, movieId } = req.body;
     const favorite = await favoriteService.addFavorite(userId, movieId);
@@ -8,9 +8,9 @@ exports.addFavorite = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 
-exports.listFavoritesByUser = async (req, res, next) => {
+async function listFavoritesByUser(req, res, next) {
   try {
     const userId = req.params.userId;
     const favorites = await favoriteService.findFavoritesByUser(userId);
@@ -18,6 +18,6 @@ exports.listFavoritesByUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 
 module.exports = { addFavorite, listFavoritesByUser };

@@ -1,20 +1,50 @@
+const { Review } = require("../models/review.model");
 const reviewService = require("../services/review.service");
 const movieService = require("../services/movie.service");
 const mongoose = require("mongoose");
 
 //หนังที่จะรีวิว
-const createReview = async (req, res, next) => {
+const createReview = async (req, res) => {
   try {
-    const reviewData = req.body;
-    const newReview = await reviewService.createReview(reviewData);
+    const {
+      user_id,
+      title,
+      synopsis,
+      pseudonym,
+      spoil_text,
+      actor,
+      director,
+      score,
+      happy,
+      drama,
+      joke,
+      genre,
+      country,
+    } = req.body;
+    const newReview = new Review({
+      user_id,
+      title,
+      synopsis,
+      pseudonym,
+      spoil_text,
+      actor,
+      director,
+      score,
+      happy,
+      drama,
+      joke,
+      genre,
+      country,
+    });
+
     res.status(201).json(newReview);
   } catch (err) {
-    next(err);
+    console.log(err);
   }
 };
 
 //หนังเรื่องนั้น
-const getReviewById = async (req, res, next) => {
+const getReviewById = async (req, res) => {
   try {
     const { id } = req.params; // Assuming the route parameter is named 'id'
     const review = await reviewService.getReviewById(id);
@@ -25,6 +55,7 @@ const getReviewById = async (req, res, next) => {
 
     res.status(200).json({
       title: review.title,
+      synopsis: review.pseudonym,
       pseudonym: review.pseudonym,
       spoil_text: review.spoil_text,
       actor: review.actor,
@@ -36,12 +67,12 @@ const getReviewById = async (req, res, next) => {
       genre: review.genre,
     });
   } catch (error) {
-    next(error);
+    console.log(err);
   }
 };
 
 //คนมาคอมเม้น
-const getCommentById = async (req, res, next) => {
+const getCommentById = async (req, res) => {
   try {
     const { commentId } = req.params;
     const comment = await reviewService.getCommentById(commentId);
@@ -52,12 +83,12 @@ const getCommentById = async (req, res, next) => {
 
     res.status(200).json(comment);
   } catch (error) {
-    next(error);
+    console.log(err);
   }
 };
 
 //สปอย
-const getSpoilByMovieId = async (req, res, next) => {
+const getSpoilByMovieId = async (req, res) => {
   try {
     const movieId = req.params.movieId;
     const spoil = await reviewService.getSpoilByMovieId(movieId);
@@ -65,7 +96,6 @@ const getSpoilByMovieId = async (req, res, next) => {
   } catch (error) {
     console.error("review.controller error getting spoil:", error);
     res.status(500).json({ success: false, message: error.message });
-    next(error);
   }
 };
 

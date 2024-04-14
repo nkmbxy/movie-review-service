@@ -3,16 +3,18 @@ const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema(
   {
     movie_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Movie",
+      type: String,
       required: true,
     },
     user_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
     },
     title: {
+      type: String,
+      required: true,
+    },
+    synopsis: {
       type: String,
       required: true,
     },
@@ -54,6 +56,10 @@ const reviewSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    image: {
+      type: String,
+      // required: true,
+    },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -63,10 +69,6 @@ const reviewSchema = new mongoose.Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-    },
-    image: {
-      type: String,
-      required: true,
     },
   },
   { versionKey: false }

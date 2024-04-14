@@ -8,10 +8,15 @@ async function create(review, options = {}) {
       "start review.service create review:",
       JSON.stringify(review, null, 2)
     );
-    const session = options.session || null;
 
-    const reviewModel = new Review(review);
-    await reviewModel.save({ session });
+    const partMovieIMG = await uploadFileFirebase(req.files["movieIMG"][0]);
+
+    const reviewModel = new Review({
+      ...review,
+      ...{ image: partMovieIMG },
+    });
+
+    await reviewModel.save();
 
     console.log("save review successfully");
 

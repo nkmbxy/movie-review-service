@@ -1,4 +1,4 @@
-const genreService = require("../services/movieGenre.service");
+const genreService = require("../services/genre.service");
 
 //แค่ประเภทที่เลือก, ดูหนังที่คล้ายกัน
 async function getMoviesSortByGenre(req, res, next) {
