@@ -11,15 +11,12 @@ async function findByEmail(email) {
 
     return user;
   } catch (error) {
-    console.error(
-      "customerProfile.service error while findByIDCard customer profile:",
-      error
-    );
+    console.error("review.service error while creating review:", error);
     throw error;
   }
 }
 
-async function register(email, password) {
+async function register(email, password, username) {
   try {
     console.log("start user.service create email:", email);
 
@@ -27,12 +24,13 @@ async function register(email, password) {
     const user = await User.create({
       email: email,
       password: encryptedPassword,
+      username: username,
     });
 
     const token = jwt.sign(
       { user_id: user._id, email },
       process.env.TOKEN_KEY,
-      { expiresIn: 0 }
+      { expiresIn: "24h" }
     );
 
     user.token = token;
@@ -41,10 +39,7 @@ async function register(email, password) {
 
     return user;
   } catch (error) {
-    console.error(
-      "customerProfile.service error while findByIDCard customer profile:",
-      error
-    );
+    console.error("review.service error while creating review:", error);
     throw error;
   }
 }
@@ -65,10 +60,7 @@ async function login(user) {
 
     return user;
   } catch (error) {
-    console.error(
-      "customerProfile.service error while findByIDCard customer profile:",
-      error
-    );
+    console.error("review.service error while creating review:", error);
     throw error;
   }
 }

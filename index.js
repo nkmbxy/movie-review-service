@@ -11,6 +11,7 @@ const spoil = require("./src/routes/review.route");
 const genre = require("./src/routes/genre.route");
 const favorite = require("./src/routes/favorite.route");
 const comment = require("./src/routes/comment.route");
+const multer = require("multer");
 
 app.use(bodyParser.json());
 app.use(
@@ -32,6 +33,11 @@ db.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+});
+
+app.use(multerMid.single("file"));
 app.use("/movie", movie);
 app.use("/genre", genre);
 app.use("/review", review);

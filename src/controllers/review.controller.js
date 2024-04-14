@@ -1,7 +1,8 @@
-const { Review } = require("../models/review.model");
+const Review = require("../models/review.model");
 const reviewService = require("../services/review.service");
 const movieService = require("../services/movie.service");
 const mongoose = require("mongoose");
+const { uploadFileFirebase } = require("../utils/uploadFile.utils");
 
 //หนังที่จะรีวิว
 const createReview = async (req, res) => {
@@ -21,6 +22,7 @@ const createReview = async (req, res) => {
       genre,
       country,
     } = req.body;
+    const file = req.file;
     const newReview = new Review({
       user_id,
       title,
@@ -35,9 +37,12 @@ const createReview = async (req, res) => {
       joke,
       genre,
       country,
+      image: await uploadFileFirebase(file),
     });
 
-    res.status(201).json(newReview);
+    await newReview.save();
+
+    res.status(201).json({ success: true, data: newReview });
   } catch (err) {
     console.log(err);
   }
@@ -46,7 +51,7 @@ const createReview = async (req, res) => {
 //หนังเรื่องนั้น
 const getReviewById = async (req, res) => {
   try {
-    const { id } = req.params; // Assuming the route parameter is named 'id'
+    const { id } = req.params;
     const review = await reviewService.getReviewById(id);
 
     if (!review) {

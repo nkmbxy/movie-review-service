@@ -6,9 +6,9 @@ async function register(req, res, next) {
   try {
     console.log("start register.controller  req body :", req?.body);
 
-    const { email, password } = req?.body;
+    const { email, password, username } = req?.body;
 
-    if (!(email && password)) {
+    if (!(email && password && username)) {
       return res.status(400).json({
         data: "All input is required",
       });
@@ -20,7 +20,7 @@ async function register(req, res, next) {
         data: "User already exists. Please login.",
       });
     }
-    const userRegister = await userService.register(email, password);
+    const userRegister = await userService.register(email, password, username);
     res.status(200).json({
       data: userRegister,
     });

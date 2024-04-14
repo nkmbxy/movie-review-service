@@ -16,7 +16,7 @@ async function uploadFileFirebase(file) {
   try {
     const dateTime = giveCurrentDateTime();
     const metadata = {
-      contentType: file.mimetype,
+      contentType: "image/jpeg",
     };
     const storageRef = ref(
       storage,

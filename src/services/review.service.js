@@ -2,24 +2,13 @@ const Review = require("../models/review.model");
 const Spoil = require("../models/spoil.model");
 
 //หนังที่จะรีวิว
-async function create(review, options = {}) {
+async function create(review = {}) {
   try {
     console.log(
       "start review.service create review:",
       JSON.stringify(review, null, 2)
     );
-
-    const partMovieIMG = await uploadFileFirebase(req.files["movieIMG"][0]);
-
-    const reviewModel = new Review({
-      ...review,
-      ...{ image: partMovieIMG },
-    });
-
-    await reviewModel.save();
-
     console.log("save review successfully");
-
     return;
   } catch (error) {
     console.error("review.service error while creating review:", error);
