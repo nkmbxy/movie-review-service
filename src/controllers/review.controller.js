@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 const { uploadFileFirebase } = require("../utils/uploadFile.utils");
 
 //หนังที่จะรีวิว
-const createReview = async (req, res) => {
+const createReview = async (req, res, next) => {
+  console.log("Request body:", req.body);
   try {
     const {
       user_id,
@@ -22,8 +23,16 @@ const createReview = async (req, res) => {
       genre,
       country,
     } = req.body;
+
     const file = req.file;
-    const newReview = new Review({
+    let imageUrl = null;
+    if (file) {
+      imageUrl = await uploadFileFirebase(file);
+    } else {
+      return res.status(400).json({ message: "Image file is required" });
+    }
+
+    const reviewData = {
       user_id,
       title,
       synopsis,
@@ -37,14 +46,15 @@ const createReview = async (req, res) => {
       joke,
       genre,
       country,
-      image: await uploadFileFirebase(file),
-    });
+      image: imageUrl,
+    };
 
-    await newReview.save();
-
+    const newReview = await Review.create(reviewData);
     res.status(201).json({ success: true, data: newReview });
   } catch (err) {
-    console.log(err);
+    console.error("Failed to create review:", err);
+    res.status(500).json({ message: "Internal server error" });
+    next(err);
   }
 };
 

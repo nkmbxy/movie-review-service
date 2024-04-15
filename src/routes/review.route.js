@@ -2,6 +2,8 @@ const express = require("express");
 const reviewController = require("../controllers/review.controller");
 const router = express.Router();
 const auth = require("../middlewares/auth.middleware");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 //หนังที่จะรีวิว
 router.post("/createReview", auth, reviewController.createReview);

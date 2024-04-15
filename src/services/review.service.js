@@ -8,6 +8,9 @@ async function create(review = {}) {
       "start review.service create review:",
       JSON.stringify(review, null, 2)
     );
+    if (review.imageUrl) {
+      console.log("Review image URL:", review.imageUrl);
+    }
     console.log("save review successfully");
     return;
   } catch (error) {
