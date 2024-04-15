@@ -56,9 +56,13 @@ async function login(user) {
       process.env.TOKEN_KEY
     );
 
-    user.token = token;
-
-    return user;
+    return {
+      user_id: user._id,
+      email: user?.email,
+      username: user.username,
+      password: user.password,
+      token: token,
+    };
   } catch (error) {
     console.error("review.service error while creating review:", error);
     throw error;

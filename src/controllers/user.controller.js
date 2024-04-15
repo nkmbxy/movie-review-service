@@ -49,6 +49,7 @@ async function login(req, res, next) {
     const user = await userService.findByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
       const userLogin = await userService.login(user);
+      console.log(userLogin);
       res.status(200).json({
         data: userLogin,
       });
