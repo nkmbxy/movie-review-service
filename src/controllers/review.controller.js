@@ -1,4 +1,5 @@
 const Review = require("../models/review.model");
+const Movie = require("../models/movie.model");
 const reviewService = require("../services/review.service");
 const movieService = require("../services/movie.service");
 const mongoose = require("mongoose");
@@ -25,14 +26,33 @@ const createReview = async (req, res, next) => {
     } = req.body;
 
     const file = req.file;
-    let imageUrl = null;
-    if (file) {
-      imageUrl = await uploadFileFirebase(file);
-    } else {
+
+    if (!req.file) {
       return res.status(400).json({ message: "Image file is required" });
     }
 
+    let imageUrl = null;
+    if (file) {
+      imageUrl = await uploadFileFirebase(file);
+    }
+
+    let movie = await Movie.findOne({ title });
+    if (!movie) {
+      const movieData = {
+        title,
+        synopsis,
+        actor,
+        director,
+        score,
+        genre,
+        country,
+        image: imageUrl,
+      };
+      movie = await Movie.create(movieData);
+    }
+
     const reviewData = {
+      movie_id: movie._id,
       user_id,
       title,
       synopsis,
@@ -63,11 +83,9 @@ const getReviewById = async (req, res) => {
   try {
     const { id } = req.params;
     const review = await reviewService.getReviewById(id);
-
     if (!review) {
       return res.status(404).json({ message: "Review not found" });
     }
-
     res.status(200).json({
       title: review.title,
       synopsis: review.pseudonym,
@@ -80,6 +98,7 @@ const getReviewById = async (req, res) => {
       drama: review.drama,
       joke: review.joke,
       genre: review.genre,
+      file: review.file,
     });
   } catch (error) {
     console.log(err);
@@ -91,11 +110,9 @@ const getCommentById = async (req, res) => {
   try {
     const { commentId } = req.params;
     const comment = await reviewService.getCommentById(commentId);
-
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-
     res.status(200).json(comment);
   } catch (error) {
     console.log(err);
