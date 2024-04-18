@@ -1,8 +1,6 @@
 const Review = require("../models/review.model");
 const Movie = require("../models/movie.model");
-const reviewService = require("../services/review.service");
-const movieService = require("../services/movie.service");
-const mongoose = require("mongoose");
+const Genre = require("../models/genre.model");
 const { uploadFileFirebase } = require("../utils/uploadFile.utils");
 const jwt = require("jsonwebtoken");
 
@@ -23,12 +21,19 @@ const createReview = async (req, res) => {
       genre_id,
       country,
     } = req.body;
-
+    const file = req.file;
     const token = req.cookies.token;
     const validToken = jwt.verify(token, "HotTwoHot");
+
     if (!validToken) {
       return res.status(400).send("Invalid Token");
     }
+
+    if (!file) {
+      return res.status(400).send("No file uploaded");
+    }
+
+    const fileUrl = await uploadFileFirebase(file);
 
     const movie = new Movie({
       title,
@@ -38,11 +43,11 @@ const createReview = async (req, res) => {
       director,
       genre_id,
       country,
+      image: fileUrl,
     });
-    // await movie.save();
 
     const review = new Review({
-      user_id: validToken._id,
+      user_id: validToken.UserID,
       movie_id: movie._id,
       pseudonym,
       spoil_text,
@@ -55,69 +60,35 @@ const createReview = async (req, res) => {
       country,
     });
 
-    // await review.save();
-    res.status(200).send("createReview success");
+    const findGenre = await Genre.findById(genre_id);
+    if (!findGenre) {
+      return res.status(404).send("Genre not found");
+    }
+    await findGenre?.updateOne({ $push: { movie_id: movie._id } });
+
+    await movie.save();
+    await review.save();
+    res.json({ message: "Review created" });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 
-//หนังเรื่องนั้น
+// หนังเรื่องนั้น
 const getReviewById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const review = await reviewService.getReviewById(id);
+    const { review_id } = req.params;
+    const review = Review.findById(review_id);
     if (!review) {
-      return res.status(404).json({ message: "Review not found" });
+      return res.status(404).send("Not Found");
     }
-    res.status(200).json({
-      title: review.title,
-      synopsis: review.pseudonym,
-      pseudonym: review.pseudonym,
-      spoil_text: review.spoil_text,
-      actor: review.actor,
-      director: review.director,
-      score: review.score,
-      happy: review.happy,
-      drama: review.drama,
-      joke: review.joke,
-      genre: review.genre,
-      file: review.file,
-    });
+    res.status(200).send(review);
   } catch (error) {
-    console.log(err);
-  }
-};
-
-//คนมาคอมเม้น
-const getCommentById = async (req, res) => {
-  try {
-    const { commentId } = req.params;
-    const comment = await reviewService.getCommentById(commentId);
-    if (!comment) {
-      return res.status(404).json({ message: "Comment not found" });
-    }
-    res.status(200).json(comment);
-  } catch (error) {
-    console.log(err);
-  }
-};
-
-//สปอย
-const getSpoilByMovieId = async (req, res) => {
-  try {
-    const movieId = req.params.movieId;
-    const spoil = await reviewService.getSpoilByMovieId(movieId);
-    res.json({ success: true, spoil });
-  } catch (error) {
-    console.error("review.controller error getting spoil:", error);
-    res.status(500).json({ success: false, message: error.message });
+    console.log(error);
   }
 };
 
 module.exports = {
   createReview,
   getReviewById,
-  getCommentById,
-  getSpoilByMovieId,
 };

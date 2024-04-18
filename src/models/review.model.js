@@ -1,13 +1,16 @@
+const { ref } = require("firebase/storage");
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema(
   {
     movie_id: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       // required: true,
+      ref: "Movie",
     },
     user_id: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     pseudonym: {

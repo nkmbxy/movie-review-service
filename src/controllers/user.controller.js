@@ -1,9 +1,10 @@
 const userService = require("../services/user.service");
+const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcryptjs");
 
-async function register(req, res, next) {
+async function register(req, res) {
   try {
     console.log("start register.controller  req body :", req?.body);
 
@@ -28,37 +29,37 @@ async function register(req, res, next) {
   } catch (err) {
     console.error(`register.controller error while creating user`, err.message);
     res.status(500).json({ data: err.message });
-    next(err);
   }
 }
 
-async function login(req, res, next) {
+async function login(req, res) {
   try {
     const { email, password } = req?.body;
 
-    if (!(email && password)) {
-      return res.status(400).json({
-        data: "All input is required",
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        data: "User not found. Please register.",
       });
     }
 
-    const user = await userService.findByEmail(email);
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const userLogin = await userService.login(user);
-      const payload = jwt.sign({ UserID: user._id }, "HotTwoHot", {
-        algorithm: "HS256",
-      });
-      res.cookie("token", payload, { httpOnly: true });
-      res.status(200).json({ message: "Login Success", payload: payload });
-    } else {
-      res.status(400).json({
-        data: "user not found please try again",
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        data: "Invalid credentials",
       });
     }
+    const payload = jwt.sign({ UserID: user._id }, "HotTwoHot", {
+      algorithm: "HS256",
+    });
+
+    res.cookie("token", payload, { httpOnly: true });
+    res.status(200).json({
+      data: "login success",
+    });
   } catch (err) {
-    console.error(`register.controller error while creating user`, err.message);
-    res.status(500).json({ data: err.message });
-    next(err);
+    console.log(`register.controller error while creating user`, err.message);
   }
 }
 

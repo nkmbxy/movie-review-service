@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const verifyToken = (req, res, next) => {
@@ -8,10 +7,9 @@ const verifyToken = (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
     next();
-  } catch {
-    return res.json({ data: "invalid token", status: 401 });
+  } catch (error) {
+    console.log(error.message);
   }
-  return next();
 };
 
 module.exports = verifyToken;

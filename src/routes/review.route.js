@@ -1,20 +1,12 @@
 const express = require("express");
 const reviewController = require("../controllers/review.controller");
 const router = express.Router();
-const auth = require("../middlewares/auth.middleware");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const verifyToken = require("../middlewares/auth.middleware");
 
 //หนังที่จะรีวิว
-router.post("/createReview", auth, reviewController.createReview);
+router.post("/createReview", verifyToken, reviewController.createReview);
 
-//หนังเรื่องนั้น
-router.get("/reviews/:id", reviewController.getReviewById);
-
-//คนมาคอมเม้น
-router.get("/comments/:commentId", reviewController.getCommentById);
-
-//สปอย
-router.get("/spoilers/:movieId", reviewController.getSpoilByMovieId);
+// หนังเรื่องนั้น
+router.get("/getReviewByID/:review_id", reviewController.getReviewById);
 
 module.exports = router;

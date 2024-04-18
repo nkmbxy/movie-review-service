@@ -1,7 +1,7 @@
 const movieService = require("../services/movie.service");
 
 //ค้นหาหน้าโฮม
-async function searchByTitle(req, res, next) {
+async function searchByTitle(req, res) {
   try {
     console.log(
       "Start searchByTitle.controller req query:",
@@ -16,12 +16,11 @@ async function searchByTitle(req, res, next) {
       err.message
     );
     res.status(500).json({ data: err.message });
-    next(err);
   }
 }
 
 //สุ่มโชว์ 3 เรื่องหน้าโฮม
-async function getRandomMovies(req, res, next) {
+async function getRandomMovies(req, res) {
   try {
     console.log("Start getRandomMovies.controller");
     const movies = await movieService.getRandomMovies();
@@ -32,12 +31,11 @@ async function getRandomMovies(req, res, next) {
       err.message
     );
     res.status(500).json({ data: err.message });
-    next(err);
   }
 }
 
 //จัดหนังตามประเทศ หน้าโฮม, เมาส์โฮเว่อร์แล้วโชว์หลายละเอียด หน้าโฮม
-async function getMoviesByCountry(req, res, next) {
+async function getMoviesByCountry(req, res) {
   try {
     console.log(
       "Start getMoviesByCountry.controller req params:",
@@ -52,7 +50,6 @@ async function getMoviesByCountry(req, res, next) {
       err.message
     );
     res.status(500).json({ data: err.message });
-    next(err);
   }
 }
 

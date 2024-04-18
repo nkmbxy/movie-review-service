@@ -14,12 +14,12 @@ const comment = require("./src/routes/comment.route");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
 
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+app.use(express.json());
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true,
+//   })
+// );
 
 app.use(cookieParser());
 
@@ -48,15 +48,13 @@ app.use("/user", user);
 app.use("/favorite", favorite);
 app.use("/comment", comment);
 
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  console.error(err.message, err.stack);
-  res.status(statusCode).json({ message: err.message });
-  return;
-});
+// app.use((err, req, res, next) => {
+//   const statusCode = err.statusCode || 500;
+//   console.error(err.message, err.stack);
+//   res.status(statusCode).json({ message: err.message });
+//   return;
+// });
 
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
-module.exports = app;

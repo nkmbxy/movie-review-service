@@ -2,7 +2,7 @@ const genreService = require("../services/genre.service");
 const Genre = require("../models/genre.model");
 
 //แค่ประเภทที่เลือก, ดูหนังที่คล้ายกัน
-async function getMoviesSortByGenre(req, res, next) {
+async function getMoviesSortByGenre(req, res) {
   try {
     const { genre } = req.query;
     const movies = await movieGenreService.getMoviesSortByGenre(genre);
@@ -10,7 +10,6 @@ async function getMoviesSortByGenre(req, res, next) {
   } catch (err) {
     console.error("Error while getting movies by genre", err.message);
     res.status(500).json({ error: err.message });
-    next(err);
   }
 }
 
