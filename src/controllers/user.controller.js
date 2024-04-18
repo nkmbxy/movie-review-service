@@ -1,4 +1,5 @@
 const userService = require("../services/user.service");
+const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcryptjs");
 
@@ -33,11 +34,6 @@ async function register(req, res, next) {
 
 async function login(req, res, next) {
   try {
-    console.log(
-      "start login.controller  req body :",
-      JSON.stringify(req?.body, null, 2)
-    );
-
     const { email, password } = req?.body;
 
     if (!(email && password)) {
@@ -49,10 +45,11 @@ async function login(req, res, next) {
     const user = await userService.findByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
       const userLogin = await userService.login(user);
-      console.log(userLogin);
-      res.status(200).json({
-        data: userLogin,
+      const payload = jwt.sign({ UserID: user._id }, "HotTwoHot", {
+        algorithm: "HS256",
       });
+      res.cookie("token", payload, { httpOnly: true });
+      res.status(200).json({ message: "Login Success", payload: payload });
     } else {
       res.status(400).json({
         data: "user not found please try again",

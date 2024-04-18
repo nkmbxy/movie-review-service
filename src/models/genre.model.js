@@ -8,11 +8,7 @@ const GenreSchema = new Schema(
       type: String,
       required: true,
     },
-    movie_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Movie",
-      required: true,
-    },
+    movie_id: [],
   },
   { versionKey: false }
 );

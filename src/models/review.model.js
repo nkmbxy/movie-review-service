@@ -4,17 +4,9 @@ const reviewSchema = new mongoose.Schema(
   {
     movie_id: {
       type: String,
-      required: true,
+      // required: true,
     },
     user_id: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    synopsis: {
       type: String,
       required: true,
     },
@@ -48,15 +40,7 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    genre: {
-      type: [String],
-      required: true,
-    },
     country: {
-      type: [String],
-      required: true,
-    },
-    image: {
       type: String,
       required: true,
     },

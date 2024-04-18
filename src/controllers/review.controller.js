@@ -4,13 +4,12 @@ const reviewService = require("../services/review.service");
 const movieService = require("../services/movie.service");
 const mongoose = require("mongoose");
 const { uploadFileFirebase } = require("../utils/uploadFile.utils");
+const jwt = require("jsonwebtoken");
 
 //หนังที่จะรีวิว
-const createReview = async (req, res, next) => {
-  console.log("Request body:", req.body);
+const createReview = async (req, res) => {
   try {
     const {
-      user_id,
       title,
       synopsis,
       pseudonym,
@@ -21,41 +20,30 @@ const createReview = async (req, res, next) => {
       happy,
       drama,
       joke,
-      genre,
+      genre_id,
       country,
     } = req.body;
 
-    const file = req.file;
-
-    if (!req.file) {
-      return res.status(400).json({ message: "Image file is required" });
+    const token = req.cookies.token;
+    const validToken = jwt.verify(token, "HotTwoHot");
+    if (!validToken) {
+      return res.status(400).send("Invalid Token");
     }
 
-    let imageUrl = null;
-    if (file) {
-      imageUrl = await uploadFileFirebase(file);
-    }
-
-    let movie = await Movie.findOne({ title });
-    if (!movie) {
-      const movieData = {
-        title,
-        synopsis,
-        actor,
-        director,
-        score,
-        genre,
-        country,
-        image: imageUrl,
-      };
-      movie = await Movie.create(movieData);
-    }
-
-    const reviewData = {
-      movie_id: movie._id,
-      user_id,
+    const movie = new Movie({
       title,
       synopsis,
+      actor,
+      score,
+      director,
+      genre_id,
+      country,
+    });
+    // await movie.save();
+
+    const review = new Review({
+      user_id: validToken._id,
+      movie_id: movie._id,
       pseudonym,
       spoil_text,
       actor,
@@ -64,17 +52,13 @@ const createReview = async (req, res, next) => {
       happy,
       drama,
       joke,
-      genre,
       country,
-      image: imageUrl,
-    };
+    });
 
-    const newReview = await Review.create(reviewData);
-    res.status(201).json({ success: true, data: newReview });
-  } catch (err) {
-    console.error("Failed to create review:", err);
-    res.status(500).json({ message: "Internal server error" });
-    next(err);
+    // await review.save();
+    res.status(200).send("createReview success");
+  } catch (error) {
+    console.log(error);
   }
 };
 

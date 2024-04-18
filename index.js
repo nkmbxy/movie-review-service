@@ -12,6 +12,7 @@ const genre = require("./src/routes/genre.route");
 const favorite = require("./src/routes/favorite.route");
 const comment = require("./src/routes/comment.route");
 const multer = require("multer");
+const cookieParser = require("cookie-parser");
 
 app.use(bodyParser.json());
 app.use(
@@ -19,6 +20,8 @@ app.use(
     extended: true,
   })
 );
+
+app.use(cookieParser());
 
 mongoose.connect(process.env.MONGODB_URI, {
   dbName: process.env.DB_NAME,

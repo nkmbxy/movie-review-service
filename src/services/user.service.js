@@ -46,11 +46,6 @@ async function register(email, password, username) {
 
 async function login(user) {
   try {
-    console.log(
-      "start login.service with user:",
-      JSON.stringify(user, null, 2)
-    );
-
     const token = jwt.sign(
       { user_id: user._id, email: user?.email },
       process.env.TOKEN_KEY

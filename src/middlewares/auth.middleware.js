@@ -3,17 +3,11 @@ require("dotenv").config();
 
 const verifyToken = (req, res, next) => {
   try {
-    const bearerHeader = req?.headers["authorization"];
-    if (!bearerHeader) {
-      return res.json({
-        data: "a token is required for authentication",
-        status: 403,
-      });
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
     }
-    const bearer = bearerHeader.split(" ");
-    const bearerToken = bearer[1];
-    const decode = jwt.verify(bearerToken, process.env.TOKEN_KEY);
-    req.user = decode;
+    next();
   } catch {
     return res.json({ data: "invalid token", status: 401 });
   }
