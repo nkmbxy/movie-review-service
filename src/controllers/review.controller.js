@@ -78,7 +78,10 @@ const createReview = async (req, res) => {
 const getReviewById = async (req, res) => {
   try {
     const { review_id } = req.params;
-    const review = Review.findById(review_id);
+    const review = await Review.findById(review_id)
+      .populate({ path: "movie_id", populate: { path: "genre_id" } })
+      .populate({ path: "comments", populate: { path: "user_id" } })
+      .populate("user_id");
     if (!review) {
       return res.status(404).send("Not Found");
     }
