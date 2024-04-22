@@ -2,7 +2,10 @@ const Movie = require("../models/movie.model");
 
 //ค้นหาหน้าโฮม
 async function searchByTitle(title) {
-  return await Movie.find(title);
+  const movies = await Movie.find({
+    title: { $regex: new RegExp(title, "i") },
+  });
+  return movies;
 }
 
 //สุ่มโชว์ 3 เรื่องหน้าโฮม

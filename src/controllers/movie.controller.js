@@ -1,13 +1,15 @@
 const movieService = require("../services/movie.service");
+const movieModel = require("../models/movie.model");
 
 //ค้นหาหน้าโฮม
 async function searchByTitle(req, res) {
   try {
-    const title = req.params.title;
+    const { title } = req.body; // Assuming the title is sent in the request body
     const movies = await movieService.searchByTitle(title);
     res.status(200).json(movies);
   } catch (error) {
     console.log(error);
+    // Handle error appropriately
   }
 }
 
