@@ -14,10 +14,10 @@ async function createComment(commentData) {
   }
 }
 
-async function incrementLikeCount(commentId) {
+async function incrementLikeCount(commentId, likeIncrement) {
   const comment = await Comment.findByIdAndUpdate(
     commentId,
-    { $inc: { like_counter: 1 } },
+    { $inc: { like_counter: likeIncrement } },
     { new: true }
   );
   return comment;

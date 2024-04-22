@@ -34,9 +34,16 @@ async function createComment(req, res) {
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
-    const updatedComment = await commentService.incrementLikeCount(commentId);
+    const likeIncrement = req.body.like_counter || 0;
+    const updatedComment = await commentService.incrementLikeCount(
+      commentId,
+      likeIncrement
+    );
     res.status(200).json(updatedComment);
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 module.exports = {

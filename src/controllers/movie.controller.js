@@ -3,19 +3,11 @@ const movieService = require("../services/movie.service");
 //ค้นหาหน้าโฮม
 async function searchByTitle(req, res) {
   try {
-    console.log(
-      "Start searchByTitle.controller req query:",
-      JSON.stringify(req?.query, null, 2)
-    );
-    const { title } = req.query;
+    const title = req.params.title;
     const movies = await movieService.searchByTitle(title);
-    res.status(200).json({ data: movies });
-  } catch (err) {
-    console.error(
-      "searchByTitle.controller error while searching movies",
-      err.message
-    );
-    res.status(500).json({ data: err.message });
+    res.status(200).json(movies);
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -38,12 +30,12 @@ async function getRandomMovies(req, res) {
 async function getMoviesByCountry(req, res) {
   try {
     console.log(
-      "Start getMoviesByCountry.controller req params:",
-      JSON.stringify(req?.params, null, 2)
+      "Start getMoviesByCountry.controller req query:",
+      JSON.stringify(req?.query, null, 2)
     );
-    const { country } = req.params;
+    const country = req.query.country;
     const movies = await movieService.getMoviesByCountry(country);
-    res.status(200).json({ data: movies });
+    res.status(200).json(movies);
   } catch (err) {
     console.error(
       "getMoviesByCountry.controller error while getting movies by country",
