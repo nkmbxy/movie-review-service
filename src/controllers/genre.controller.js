@@ -13,7 +13,7 @@ async function getMoviesSortByGenre(req, res) {
   }
 }
 
-//สร้างประเภทหนัง
+//สร้างประเภทหนัง ได้
 async function createGenre(req, res) {
   try {
     const title = req.body.title;

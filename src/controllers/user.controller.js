@@ -1,13 +1,11 @@
 const userService = require("../services/user.service");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
-
 const bcrypt = require("bcryptjs");
 
+//ได้
 async function register(req, res) {
   try {
-    console.log("start register.controller  req body :", req?.body);
-
     const { email, password, username } = req?.body;
 
     if (!(email && password && username)) {
@@ -32,6 +30,7 @@ async function register(req, res) {
   }
 }
 
+//ได้
 async function login(req, res) {
   try {
     const { email, password } = req?.body;

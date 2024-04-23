@@ -15,6 +15,10 @@ const movieSchema = new mongoose.Schema(
       ref: "Genre",
       required: true,
     },
+    review_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
     country: {
       type: String,
       required: true,

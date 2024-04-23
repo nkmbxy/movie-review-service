@@ -3,6 +3,7 @@ const Review = require("../models/review.model");
 const Comment = require("../models/comment.model");
 const jwt = require("jsonwebtoken");
 
+//คอมเม้น ได้
 async function createComment(req, res) {
   try {
     const { review_id, comment_text } = req.body;
@@ -31,6 +32,7 @@ async function createComment(req, res) {
   }
 }
 
+//ไลค์คอมเม้น ได้
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
