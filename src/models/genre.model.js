@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 
 const GenreSchema = new Schema(
   {
-    title: {
+    genre: {
       type: String,
       required: true,
     },
-    movie_id: [],
+    movie_id: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Movie", required: true },
+    ],
   },
   { versionKey: false }
 );

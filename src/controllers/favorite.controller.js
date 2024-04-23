@@ -1,5 +1,7 @@
 const favoriteService = require("../services/favorite.service");
 const Favorite = require("../models/favorite.model");
+const jwt = require("jsonwebtoken");
+const { ObjectId } = require("mongodb");
 
 async function addFavorite(req, res) {
   try {
@@ -14,9 +16,18 @@ async function addFavorite(req, res) {
 
 async function listFavoritesByUser(req, res) {
   try {
-    const userId = req.params.userId;
-    const favorites = await favoriteService.findFavoritesByUser(userId);
-    res.status(200).json(favorites);
+    const token = req.cookies.token;
+    const validToken = jwt.verify(token, "HotTwoHot");
+
+    if (!validToken) {
+      return res.status(400).send("Invalid Token");
+    }
+    const movie = await Favorite.find({
+      user_id: new ObjectId(validToken.UserID),
+    })
+      .populate("movie_id")
+      .populate({ path: "movie_id", populate: { path: "genre_id" } });
+    res.send(movie);
   } catch (error) {
     console.log(error);
   }

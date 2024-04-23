@@ -59,7 +59,7 @@ const createReview = async (req, res) => {
       joke,
       country,
     });
-    // await movie.insertMany({ review_id: review._id });
+    movie.review_id = review._id;
     const findGenre = await Genre.findById(genre_id);
     if (!findGenre) {
       return res.status(404).send("Genre not found");
@@ -68,7 +68,7 @@ const createReview = async (req, res) => {
 
     await movie.save();
     await review.save();
-    res.json({ message: review._id });
+    res.json({ message: "Review create" });
   } catch (error) {
     console.log(error.message);
   }

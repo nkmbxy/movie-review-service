@@ -5,7 +5,7 @@ const Genre = require("../models/genre.model");
 async function getMoviesSortByGenre(req, res) {
   try {
     const { genre } = req.query;
-    const movies = await movieGenreService.getMoviesSortByGenre(genre);
+    const movies = await Genre.findOne({ genre: genre }).populate("movie_id");
     res.status(200).json({ data: movies });
   } catch (err) {
     console.error("Error while getting movies by genre", err.message);
@@ -16,10 +16,10 @@ async function getMoviesSortByGenre(req, res) {
 //สร้างประเภทหนัง ได้
 async function createGenre(req, res) {
   try {
-    const title = req.body.title;
-    const genre = new Genre({ title });
-    genre.save();
-    res.status(200).send(genre);
+    const genre = req.body.genre;
+    const newGenre = new Genre({ genre });
+    newGenre.save();
+    res.status(200).send(newGenre);
   } catch (error) {}
 }
 
