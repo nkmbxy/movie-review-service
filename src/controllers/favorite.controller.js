@@ -33,4 +33,27 @@ async function listFavoritesByUser(req, res) {
   }
 }
 
-module.exports = { addFavorite, listFavoritesByUser };
+async function favoriteColor(req, res) {
+  try {
+    const { movie_id } = req.param;
+    const token = req.cookies.token;
+    const validToken = jwt.verify(token, "HotTwoHot");
+
+    if (!validToken) {
+      return res.status(400).send("Invalid Token");
+    }
+
+    const findMovie = await Favorite.findOne({
+      user_id: new ObjectId(validToken.UserID),
+      movie_id: new ObjectId(movie_id),
+    });
+
+    if (findMovie) {
+      res.status(200).send({ status: true });
+    } else {
+      res.status(200).send({ status: false });
+    }
+  } catch (error) {}
+}
+
+module.exports = { addFavorite, listFavoritesByUser, favoriteColor };
