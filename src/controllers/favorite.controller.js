@@ -35,7 +35,7 @@ async function listFavoritesByUser(req, res) {
 
 async function favoriteColor(req, res) {
   try {
-    const { movie_id } = req.param;
+    const { movie_id } = req.params;
     const token = req.cookies.token;
     const validToken = jwt.verify(token, "HotTwoHot");
 

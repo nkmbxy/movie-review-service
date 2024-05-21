@@ -13,13 +13,15 @@ const favorite = require("./src/routes/favorite.route");
 const comment = require("./src/routes/comment.route");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 app.use(express.json());
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true,
-//   })
-// );
+app.use(cors());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.use(cookieParser());
 

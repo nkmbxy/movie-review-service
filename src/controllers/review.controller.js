@@ -3,6 +3,7 @@ const Movie = require("../models/movie.model");
 const Genre = require("../models/genre.model");
 const { uploadFileFirebase } = require("../utils/uploadFile.utils");
 const jwt = require("jsonwebtoken");
+const { getMoviesSortByGenre } = require("../services/genre.service");
 
 //หนังที่จะรีวิว ได้
 const createReview = async (req, res) => {
@@ -82,10 +83,20 @@ const getReviewById = async (req, res) => {
       .populate({ path: "movie_id", populate: { path: "genre_id" } })
       .populate({ path: "comments", populate: { path: "user_id" } })
       .populate("user_id");
+    const movies = await Genre.findOne({
+      genre: review?.movie_id?.genre_id?.genre,
+    }).populate("movie_id");
+
+    let moviesGenre = [];
+
+    movies?.movie_id?.forEach((item) => {
+      moviesGenre.push(item.image);
+    });
+
     if (!review) {
       return res.status(404).send("Not Found");
     }
-    res.status(200).send(review);
+    res.status(200).send({ review, moviesGenre });
   } catch (error) {
     console.log(error);
   }
