@@ -52,9 +52,7 @@ async function login(req, res) {
     const payload = jwt.sign({ UserID: user._id }, "HotTwoHot", {
       algorithm: "HS256",
     });
-
-    res.cookie("token", payload, { httpOnly: true });
-    res.status(200).json({
+    res.status(200).header("x-auth-token", payload).json({
       data: "login success",
     });
   } catch (err) {
