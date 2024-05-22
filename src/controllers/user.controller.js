@@ -21,7 +21,12 @@ async function register(req, res) {
       });
     }
     const userRegister = await userService.register(email, password, username);
-    res.status(200).json({
+
+    const payload = jwt.sign({ UserID: userRegister._id }, "HotTwoHot", {
+      algorithm: "HS256",
+    });
+
+    res.status(200).header("x-auth-token", payload).json({
       data: userRegister,
     });
   } catch (err) {

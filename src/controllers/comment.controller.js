@@ -48,7 +48,32 @@ const likeComment = async (req, res) => {
   }
 };
 
+//ไลค์สี
+async function likeFavoriteColor(req, res) {
+  try {
+    const { commentId } = req.params;
+    const token = req.cookies.token;
+    const validToken = jwt.verify(token, "HotTwoHot");
+
+    if (!validToken) {
+      return res.status(400).send("Invalid Token");
+    }
+
+    const findComment = await Favorite.findOne({
+      user_id: new ObjectId(validToken.UserID),
+      commentId: new ObjectId(commentId),
+    });
+
+    if (findComment) {
+      res.status(200).send({ status: true });
+    } else {
+      res.status(200).send({ status: false });
+    }
+  } catch (error) {}
+}
+
 module.exports = {
   createComment,
   likeComment,
+  likeFavoriteColor,
 };

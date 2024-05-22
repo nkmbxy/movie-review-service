@@ -23,7 +23,7 @@ async function incrementLikeCount(commentId, likeIncrement) {
   return comment;
 }
 
-//ทำอันเคาร์ทเพิ่มเติม
+//ทำ uncount เพิ่มเติม
 
 module.exports = {
   createComment,
