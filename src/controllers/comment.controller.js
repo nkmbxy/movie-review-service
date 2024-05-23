@@ -2,20 +2,15 @@ const commentService = require("../services/comment.service");
 const Review = require("../models/review.model");
 const Comment = require("../models/comment.model");
 const jwt = require("jsonwebtoken");
+const { ObjectId } = require("mongodb");
 
 //คอมเม้น ได้
-async function createComment(req, res) {
+async function createComment(req, res, next) {
   try {
     const { review_id, comment_text } = req.body;
-    const token = req.cookies.token;
-    const validToken = jwt.verify(token, "HotTwoHot");
-
-    if (!validToken) {
-      return res.status(400).send("Invalid Token");
-    }
 
     const newComment = new Comment({
-      user_id: validToken.UserID,
+      user_id: req.user.UserID,
       review_id,
       comment_text,
     });
@@ -29,6 +24,7 @@ async function createComment(req, res) {
     res.status(201).send("Comment created successfully!");
   } catch (error) {
     console.log(error.message);
+    next(error);
   }
 }
 
@@ -40,6 +36,22 @@ const likeComment = async (req, res) => {
     const updatedComment = await commentService.incrementLikeCount(
       commentId,
       likeIncrement
+    );
+    res.status(200).json(updatedComment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// unlike
+const unLikeComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const likeDecrement = req.body.like_counter || 0;
+    const updatedComment = await commentService.decrementLikeCount(
+      commentId,
+      likeDecrement
     );
     res.status(200).json(updatedComment);
   } catch (error) {
@@ -76,4 +88,5 @@ module.exports = {
   createComment,
   likeComment,
   likeFavoriteColor,
+  unLikeComment,
 };

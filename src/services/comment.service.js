@@ -23,9 +23,17 @@ async function incrementLikeCount(commentId, likeIncrement) {
   return comment;
 }
 
-//ทำ uncount เพิ่มเติม
+async function decrementLikeCount(commentId, likeDecrement) {
+  const comment = Comment.findByIdAndUpdate(
+    commentId,
+    { $inc: { like_counter: -likeDecrement } },
+    { new: true }
+  );
+  return comment;
+}
 
 module.exports = {
   createComment,
   incrementLikeCount,
+  decrementLikeCount,
 };

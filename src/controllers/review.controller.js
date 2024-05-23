@@ -81,7 +81,11 @@ const getReviewById = async (req, res) => {
     const { review_id } = req.params;
     const review = await Review.findById(review_id)
       .populate({ path: "movie_id", populate: { path: "genre_id" } })
-      .populate({ path: "comments", populate: { path: "user_id" } })
+      .populate({
+        path: "comments",
+        populate: { path: "user_id" },
+        options: { sort: { createdAt: -1 } },
+      })
       .populate("user_id");
     const movies = await Genre.findOne({
       genre: review?.movie_id?.genre_id?.genre,

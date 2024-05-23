@@ -22,9 +22,7 @@ async function register(req, res) {
     }
     const userRegister = await userService.register(email, password, username);
 
-    const payload = jwt.sign({ UserID: userRegister._id }, "HotTwoHot", {
-      algorithm: "HS256",
-    });
+    const payload = jwt.sign({ UserID: userRegister._id }, "HotTwoHot");
 
     res.status(200).header("x-auth-token", payload).json({
       data: userRegister,
@@ -54,9 +52,8 @@ async function login(req, res) {
         data: "Invalid credentials",
       });
     }
-    const payload = jwt.sign({ UserID: user._id }, "HotTwoHot", {
-      algorithm: "HS256",
-    });
+    console.log(user._id);
+    const payload = jwt.sign({ UserID: user._id }, "HotTwoHot");
     res.status(200).header("x-auth-token", payload).json({
       data: "login success",
     });
