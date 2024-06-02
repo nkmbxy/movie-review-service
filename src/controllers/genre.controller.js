@@ -1,7 +1,6 @@
 const genreService = require("../services/genre.service");
 const Genre = require("../models/genre.model");
 
-//แค่ประเภทที่เลือก, ดูหนังที่คล้ายกัน
 async function getMoviesSortByGenre(req, res) {
   try {
     const { genre } = req.query;
@@ -13,7 +12,6 @@ async function getMoviesSortByGenre(req, res) {
   }
 }
 
-//สร้างประเภทหนัง ได้
 async function createGenre(req, res) {
   try {
     const genre = req.body.genre;

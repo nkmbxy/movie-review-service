@@ -5,7 +5,6 @@ const { uploadFileFirebase } = require("../utils/uploadFile.utils");
 const jwt = require("jsonwebtoken");
 const { getMoviesSortByGenre } = require("../services/genre.service");
 
-//หนังที่จะรีวิว ได้
 const createReview = async (req, res) => {
   try {
     const {
@@ -75,7 +74,6 @@ const createReview = async (req, res) => {
   }
 };
 
-// หนังเรื่องนั้น ได้
 const getReviewById = async (req, res) => {
   try {
     const { review_id } = req.params;

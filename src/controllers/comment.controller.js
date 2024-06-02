@@ -4,7 +4,6 @@ const Comment = require("../models/comment.model");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 
-//คอมเม้น ได้
 async function createComment(req, res, next) {
   try {
     const { review_id, comment_text } = req.body;
@@ -28,7 +27,6 @@ async function createComment(req, res, next) {
   }
 }
 
-//ไลค์คอมเม้น ได้
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -44,7 +42,6 @@ const likeComment = async (req, res) => {
   }
 };
 
-// unlike
 const unLikeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -60,7 +57,6 @@ const unLikeComment = async (req, res) => {
   }
 };
 
-//ไลค์สี
 async function likeFavoriteColor(req, res) {
   try {
     const { commentId } = req.params;

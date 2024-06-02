@@ -3,7 +3,6 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-//ได้
 async function register(req, res) {
   try {
     const { email, password, username } = req?.body;
@@ -33,7 +32,6 @@ async function register(req, res) {
   }
 }
 
-//ได้
 async function login(req, res) {
   try {
     const { email, password } = req?.body;
