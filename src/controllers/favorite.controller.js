@@ -5,8 +5,15 @@ const { ObjectId } = require("mongodb");
 
 async function addFavorite(req, res) {
   try {
-    const { user_id, movie_id } = req.body;
-    const favorite = new Favorite({ user_id, movie_id });
+    const token = req.cookies.token;
+    const validToken = jwt.verify(token, "HotTwoHot");
+
+    if (!validToken) {
+      return res.status(400).send("Invalid Token");
+    }
+
+    const { movie_id } = req.params;
+    const favorite = new Favorite({ user_id: validToken.UserID, movie_id });
     await favorite.save();
     res.status(201).json(favorite);
   } catch (error) {
@@ -56,4 +63,30 @@ async function favoriteColor(req, res) {
   } catch (error) {}
 }
 
-module.exports = { addFavorite, listFavoritesByUser, favoriteColor };
+async function deleteFavorite(req, res) {
+  try {
+    const { movie_id } = req.params;
+    const token = req.cookies.token;
+    const validToken = jwt.verify(token, "HotTwoHot");
+
+    if (!validToken) {
+      return res.status(400).send("Invalid Token");
+    }
+
+    await Favorite.deleteOne({
+      user_id: new ObjectId(validToken.UserID),
+      movie_id: new ObjectId(movie_id),
+    });
+
+    res.status(200).send("Favorite deleted");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = {
+  addFavorite,
+  listFavoritesByUser,
+  favoriteColor,
+  deleteFavorite,
+};

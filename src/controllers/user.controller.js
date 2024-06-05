@@ -23,7 +23,8 @@ async function register(req, res) {
 
     const payload = jwt.sign({ UserID: userRegister._id }, "HotTwoHot");
 
-    res.status(200).header("x-auth-token", payload).json({
+    res.cookie("token", payload, { httpOnly: true });
+    res.status(200).json({
       data: userRegister,
     });
   } catch (err) {
@@ -52,7 +53,8 @@ async function login(req, res) {
     }
     console.log(user._id);
     const payload = jwt.sign({ UserID: user._id }, "HotTwoHot");
-    res.status(200).header("x-auth-token", payload).json({
+    res.cookie("token", payload, { httpOnly: true });
+    res.status(200).json({
       data: "login success",
     });
   } catch (err) {

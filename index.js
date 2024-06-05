@@ -15,12 +15,14 @@ const multer = require("multer");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const corsOptions = {
-  exposedHeaders: ["x-auth-token"],
-};
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
-app.use(cors(corsOptions));
 app.use(
   bodyParser.urlencoded({
     extended: true,
