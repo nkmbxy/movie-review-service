@@ -27,7 +27,7 @@ async function register(req, res) {
     res.status(200).json({
       data: userRegister,
     });
-  } catch (err) {
+  } catch (error) {
     console.error(`register.controller error while creating user`, err.message);
     res.status(500).json({ data: err.message });
   }
@@ -57,7 +57,7 @@ async function login(req, res) {
     res.status(200).json({
       data: "login success",
     });
-  } catch (err) {
+  } catch (error) {
     console.log(`register.controller error while creating user`, err.message);
   }
 }

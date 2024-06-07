@@ -6,7 +6,7 @@ async function getMoviesSortByGenre(req, res) {
     const { genre } = req.query;
     const movies = await Genre.findOne({ genre: genre }).populate("movie_id");
     res.status(200).json({ data: movies });
-  } catch (err) {
+  } catch (error) {
     console.error("Error while getting movies by genre", err.message);
     res.status(500).json({ error: err.message });
   }
