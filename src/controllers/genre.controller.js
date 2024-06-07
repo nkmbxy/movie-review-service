@@ -21,7 +21,7 @@ async function createGenre(req, res) {
   } catch (error) {}
 }
 
-async function getMoviesSort(req, res) {
+async function getGenre(req, res) {
   try {
     const genre = await Genre.find({}, " _id genre").exec();
     res.status(200).json(genre);
@@ -30,4 +30,4 @@ async function getMoviesSort(req, res) {
   }
 }
 
-module.exports = { getMoviesSortByGenre, createGenre, getMoviesSort };
+module.exports = { getMoviesSortByGenre, createGenre, getGenre };
