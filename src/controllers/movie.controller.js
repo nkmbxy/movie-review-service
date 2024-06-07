@@ -14,7 +14,7 @@ async function getRandomMovies(req, res) {
   try {
     const movies = await movieService.getRandomMovies();
     res.status(200).json({ data: movies });
-  } catch (err) {
+  } catch (error) {
     console.log(error);
   }
 }
@@ -24,7 +24,7 @@ async function getMoviesByCountry(req, res) {
     const country = req.query.country;
     const movies = await movieService.getMoviesByCountry(country);
     res.status(200).json(movies);
-  } catch (err) {
+  } catch (error) {
     console.log(error);
   }
 }
