@@ -2,7 +2,7 @@ const movieService = require("../services/movie.service");
 
 async function searchByTitle(req, res) {
   try {
-    const { title } = req.body;
+    const { title } = req.query;
     const movies = await movieService.searchByTitle(title);
     res.status(200).json(movies);
   } catch (error) {
