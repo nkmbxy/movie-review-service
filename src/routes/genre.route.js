@@ -4,6 +4,6 @@ const movieController = require("../controllers/genre.controller");
 
 router.get("/movieSortByGenre", movieController.getMoviesSortByGenre);
 router.post("/createGenre", movieController.createGenre);
-router.post("/moviesSortByGenre", movieController.getMoviesSortByGenre);
+router.post("/moviesSort", movieController.getMoviesSort);
 
 module.exports = router;
