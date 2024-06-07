@@ -21,4 +21,13 @@ async function createGenre(req, res) {
   } catch (error) {}
 }
 
+async function getGenre(req, res) {
+  try {
+    const genre = await Genre.find({}, " _id genre").exec();
+    res.status(200).json(genre);
+  } catch (error) {
+    console.log("Error while getting movies by genre", error.message);
+  }
+}
+
 module.exports = { getMoviesSortByGenre, createGenre };
