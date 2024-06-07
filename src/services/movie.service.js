@@ -8,7 +8,7 @@ async function searchByTitle(title) {
 }
 
 async function getRandomMovies() {
-  return await Movie.aggregate([{ $sample: { size: 3 } }]).populate("genre_id");
+  return await Movie.find().populate("genre_id").limit(3);
 }
 
 async function getMoviesByCountry(country) {
