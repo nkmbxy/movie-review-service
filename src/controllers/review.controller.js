@@ -68,7 +68,7 @@ const createReview = async (req, res) => {
 
     await movie.save();
     await review.save();
-    res.json({ message: "Review create" });
+    res.json({ message: "Review create", data: review._id });
   } catch (error) {
     console.log(error.message);
   }
