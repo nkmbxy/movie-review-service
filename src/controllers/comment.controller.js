@@ -7,9 +7,15 @@ const { ObjectId } = require("mongodb");
 async function createComment(req, res, next) {
   try {
     const { review_id, comment_text } = req.body;
+    const token = req.cookies.token;
+    const validToken = jwt.verify(token, "HotTwoHot");
+
+    if (!validToken) {
+      return res.status(400).send("Invalid Token");
+    }
 
     const newComment = new Comment({
-      user_id: req.user.UserID,
+      user_id: validToken.UserID,
       review_id,
       comment_text,
     });
