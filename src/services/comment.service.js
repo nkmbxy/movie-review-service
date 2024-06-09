@@ -10,7 +10,6 @@ async function createComment(commentData) {
     return { message: "Comment simulated as saved", data: commentData };
   } catch (error) {
     console.error("comment.service error while creating comment:", error);
-    throw error;
   }
 }
 

@@ -12,7 +12,6 @@ async function findByEmail(email) {
     return user;
   } catch (error) {
     console.error("review.service error while creating review:", error);
-    throw error;
   }
 }
 
@@ -40,7 +39,6 @@ async function register(email, password, username) {
     return user;
   } catch (error) {
     console.error("review.service error while creating review:", error);
-    throw error;
   }
 }
 
@@ -60,7 +58,6 @@ async function login(user) {
     };
   } catch (error) {
     console.error("review.service error while creating review:", error);
-    throw error;
   }
 }
 

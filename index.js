@@ -7,7 +7,6 @@ const port = process.env.PORT || 4000;
 const user = require("./src/routes/user.route");
 const movie = require("./src/routes/movie.route");
 const review = require("./src/routes/review.route");
-const spoil = require("./src/routes/review.route");
 const genre = require("./src/routes/genre.route");
 const favorite = require("./src/routes/favorite.route");
 const comment = require("./src/routes/comment.route");

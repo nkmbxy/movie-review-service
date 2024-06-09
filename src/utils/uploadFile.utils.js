@@ -31,7 +31,6 @@ async function uploadFileFirebase(file) {
     return downloadURL;
   } catch (error) {
     console.error("Error creating user:", error);
-    throw error;
   }
 }
 
