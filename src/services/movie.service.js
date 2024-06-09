@@ -8,7 +8,9 @@ async function searchByTitle(title) {
 }
 
 async function getRandomMovies() {
-  return await Movie.find().populate("genre_id").limit(3);
+  const movies = await Movie.find().populate("genre_id");
+  movies.sort(() => Math.random() - 0.5);
+  return movies.slice(0, 3);
 }
 
 async function getMoviesByCountry(country) {
